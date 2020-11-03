@@ -2,14 +2,10 @@ from random import randint
 import sqlite3
 class CreditCard:
     iin = "400000"
+    db_connection = sqlite3.connect('./card.s3db')
 
     def __init__(self):
-        self.connection = sqlite3.connect('./card.s3db')
-        self.cur = self.connection.cursor()
-        self.cur.execute('''CREATE TABLE IF NOT EXISTS card(ID INTEGER PRIMARY KEY, \
-                                NUMBER TEXT, 
-                                PIN text,
-                                BALANCE INTEGER DEFAULT 0)''')
+        self.cur = CreditCard.create_db_and_table()
         self.card = dict()
         self.card['iin'] = CreditCard.iin
         self.card['account_number'] = self.generate_acc_num()
@@ -19,7 +15,17 @@ class CreditCard:
         self.card['balance'] = 0
         self.cur.execute((f"INSERT INTO card (number, pin, balance) "
                      f"VALUES ('{self.card['number']}', '{self.card['pin']}', '{self.card['balance']}')"))
-        self.connection.commit()
+        CreditCard.db_connection.commit()
+
+    @staticmethod
+    def create_db_and_table():
+        cur = CreditCard.db_connection.cursor()
+        cur.execute('''CREATE TABLE IF NOT EXISTS card(ID INTEGER PRIMARY KEY, \
+                            NUMBER TEXT, 
+                            PIN text,
+                            BALANCE INTEGER DEFAULT 0)''')
+        return cur
+
 
     def get_pin(self):
         return self.card['pin']
@@ -63,11 +69,11 @@ class OnlineBank:
             return cls.instance
 
     def connect_to_db(self):
-        self.connection = sqlite3.connect('./card.s3db')
-        self.cur = self.connection.cursor()
+        self.cur = CreditCard.create_db_and_table()
         return self.cur
     
     def start_menu(self):
+        self.connect_to_db()
         choice = input("1. Create an account\n2. Log into account\n0. Exit\n")
         self.start(choice)
 
@@ -124,8 +130,6 @@ class OnlineBank:
             self.start(choice)
 
                 
-        
-
 
 bank = OnlineBank()
 bank.start_menu()
