@@ -26,7 +26,6 @@ class CreditCard:
                             BALANCE INTEGER DEFAULT 0)''')
         return cur
 
-
     def get_pin(self):
         return self.card['pin']
     
@@ -62,18 +61,15 @@ class CreditCard:
     
 class OnlineBank:
     instance = None
+    db_connection = sqlite3.connect('./card.s3db') 
+    cur = CreditCard.create_db_and_table()
 
     def __new__(cls):
         if not cls.instance:
             cls.instance = object.__new__(cls)
             return cls.instance
 
-    def connect_to_db(self):
-        self.cur = CreditCard.create_db_and_table()
-        return self.cur
-    
     def start_menu(self):
-        self.connect_to_db()
         choice = input("1. Create an account\n2. Log into account\n0. Exit\n")
         self.start(choice)
 
@@ -95,8 +91,24 @@ class OnlineBank:
         print("Your card PIN:")
         print(f"{self.newcard.get_pin()}\n")
         self.start_menu()
-        
 
+    def convert_row_to_dict(self,query):
+        self.desc = OnlineBank.cur.description
+        self.keys = [self.col[0] for self.col in self.desc]
+        self.rows = []
+        for self.row in query:
+            self.rows.append(self.row)
+        return dict(zip(self.keys,self.rows))
+
+    def add_income(self, card):
+        self.income = input("\nEnter income:")
+        OnlineBank.cur.execute((f"UPDATE card SET balance = balance + '{self.income}'"
+                                f"WHERE NUMBER = '{card['NUMBER']}'"))
+        OnlineBank.db_connection.commit()
+        OnlineBank.cur.execute((f"SELECT * FROM card WHERE NUMBER = '{card['NUMBER']}'"))
+        print("Income was added")
+        return self.convert_row_to_dict(OnlineBank.cur.fetchone())
+        
     def login(self):
         self.card_number = input("Enter your card number:")
         self.pin = input("Enter your PIN:")
@@ -110,26 +122,28 @@ class OnlineBank:
 
 
     def find_card(self,card_number,pin):
-        self.cur = self.connect_to_db()
-        self.cur.execute((f"SELECT * FROM card WHERE number = '{card_number}'"
-                          f"AND pin = '{pin}'"))
-        return self.cur.fetchone()
+        OnlineBank.cur.execute((f"SELECT * FROM card WHERE number = '{card_number}'"
+                                f"AND pin = '{pin}'"))
+        return self.convert_row_to_dict(OnlineBank.cur.fetchone())
 
     def card_menu(self,card):
-        choice = input("1. Balance\n2. Log out\n0. Exit \n")
+        choice = input("1. Balance\n2. Add income\n3. Do transfer\n4. Close account\n5. Log out\n0. Exit \n")
         self.card_operations(choice,card)
     
     def card_operations(self,choice,card):
         if choice == "1":
-            print(f"\nBalance: {card[3]}\n")
+            print(f"\nBalance: {card['BALANCE']}\n")
             self.card_menu(card)
         elif choice == "2":
+            self.card = self.add_income(card)
+            self.card_menu(self.card)
+
+        elif choice == "5":
             print("\nYou have successfully logged out!\n")
             self.start_menu()
         elif choice == "0":
             self.start(choice)
 
-                
 
 bank = OnlineBank()
 bank.start_menu()
