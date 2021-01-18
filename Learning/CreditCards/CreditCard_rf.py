@@ -1,5 +1,6 @@
 from random import randint
 import sqlite3
+import sys
 class CreditCard:
     
     def __init__(self):
@@ -112,12 +113,12 @@ class OnlineBank:
     def start(self,choice):
         if choice == "1":
             self.add_new_account()
-            self.start_menu
+            self.start_menu()
         elif choice == "2":
             self.login()
-            self.start_menu
+            self.start_menu()
         elif choice == "0":
-            print("\nBye!")
+            sys.exit("\nBye!")
     
     def add_new_account(self):
         self.card.add_new_card()
@@ -126,7 +127,6 @@ class OnlineBank:
         print(f"{self.card.number}")
         print("Your card PIN:")
         print(f"{self.card.pin}\n")
-        self.start_menu()
 
     def login(self):
         self.card.number = input("Enter your card number:")
