@@ -1,0 +1,14 @@
+[
+  {
+    "created": "2020-02-22 16:40:00",
+    "text": "A new star appeared in the sky.",
+    "title": "A star is born",
+    "link": 1
+  },
+  {
+    "created": "2021-02-07 19:40:00",
+    "text": "One more star appeared in the sky.",
+    "title": "One more star is born",
+    "link": 2
+  }
+]

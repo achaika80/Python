@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<h2>Hyper news</h2>
+
+{% regroup news_dict|dictsortreversed:'created' by created as g_articles %}
+
+<ul>
+    {% for article in g_articles %}
+        <h4>{{ article.grouper|date:'Y-m-d' }}</h4>
+        <ul>
+            {% for item in article.list %}
+                <li><a href="/news/{{ item.link }}/">{{ item.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</ul>
+<br>
+<a href="/news/create/" target="_blank">Create Article</a>

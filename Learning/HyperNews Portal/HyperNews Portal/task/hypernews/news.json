@@ -1,0 +1,38 @@
+[
+    {
+        "created": "2020-02-09 14:15:10",
+        "text": "Text of the news 1",
+        "title": "News 1",
+        "link": 1
+    },
+    {
+        "created": "2020-02-10 14:15:10",
+        "text": "Text of the news 2",
+        "title": "News 2",
+        "link": 2
+    },
+    {
+        "created": "2020-02-09 16:15:10",
+        "text": "Text of the news 3",
+        "title": "News 3",
+        "link": 3
+    },
+    {
+        "created": "2021-02-28 16:26:54",
+        "text": "text new 1",
+        "title": "title new",
+        "link": 283
+    },
+    {
+        "created": "2021-02-28 16:47:43",
+        "text": "text new 2",
+        "title": "title new 2",
+        "link": 247
+    },
+    {
+        "created": "2021-03-04 13:41:14",
+        "text": "text new 3",
+        "title": "title new 3",
+        "link": 149
+    }
+]
