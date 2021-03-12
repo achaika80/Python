@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<h2>Hyper news</h2>
+
+<form type="get" action="/news/" style="margin: 0">
+    <label for="q">q: </label>
+    <input id="q" type="text" name="q">
+    <input type="submit" value="OK">
+</form>
+
+{% regroup news_dict|dictsortreversed:'created' by created as g_articles %}
+
+<ul>
+    {% for article in g_articles %}
+        <h4>{{ article.grouper|date:'Y-m-d' }}</h4>
+        <ul>
+            {% for item in article.list %}
+                <li><a href="/news/{{ item.link }}/">{{ item.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</ul>
+<br>
+<a href="/news/create/" target="_blank">Create Article</a>
