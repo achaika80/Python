@@ -1,5 +1,7 @@
 web:
     build: ./www
-    ports:
-    − "80:5000"
-    volumes:
+ports:
+    − "80:80"
+volumes:
+    - .:./www
+
