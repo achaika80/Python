@@ -1,7 +1,8 @@
-web:
-    build: ./www
-ports:
-    − "80:80"
-volumes:
-    - .:./www
-
+version: '3.8'
+services:
+    web:
+        build: ./www
+        ports:
+            − "80:80"
+        volumes:
+            - .:./www
