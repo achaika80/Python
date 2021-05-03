@@ -1,4 +1,8 @@
-FROM tiangolo/uwsgi-nginx-flask:python3.8
-RUN apk --update add bash nano
-COPY ./requirements.txt ./www/requirements.txt
-RUN pip install -r ./www/requirements.txt
+FROM tiangolo/uwsgi-nginx:python3.8
+RUN echo "ipv6" >> /etc/modules
+RUN mkdir /usr/src/app
+COPY . /usr/src/app
+WORKDIR /usr/src/app
+EXPOSE 80
+RUN pip install -r /usr/src/app/requirements.txt
+CMD ["python", "app.py"]

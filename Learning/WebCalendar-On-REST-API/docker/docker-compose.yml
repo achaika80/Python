@@ -1,8 +1,9 @@
-version: '3.8'
-services:
-    web:
-        build: ./www
-        ports:
-            − "80:80"
+version: '3'
+services: 
+    product-service:
+        build: .
         volumes:
-            - .:./www
+            - .:/usr/src/app
+        ports: 
+            - 80:80
+            
