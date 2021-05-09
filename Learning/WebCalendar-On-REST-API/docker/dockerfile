@@ -1,10 +1,7 @@
-FROM tiangolo/uwsgi-nginx:python3.8
+FROM tiangolo/uwsgi-nginx-flask:python3.8
 RUN echo "ipv6" >> /etc/modules
 RUN mkdir /usr/src/app
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 EXPOSE 80
 RUN pip install -r /usr/src/app/requirements.txt
-COPY nginx.conf /etc/nginx/conf.d/
-RUN ["chmod", "+x", "/usr/src/app/start.sh"]
-CMD ["/usr/src/app/start.sh"]
