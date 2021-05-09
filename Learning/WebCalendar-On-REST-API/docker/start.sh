@@ -1,6 +1,3 @@
 #!/bin/bash
-app="webcldapi.test"
-docker build -t ${app} .
-docker run -d -p 80:80 \
-  --name=${app} \
-  -v $PWD:/www ${app}
+uwsgi --ini /usr/src/app/uwsgi.ini
+/etc/init.d/nginx start

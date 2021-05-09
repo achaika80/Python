@@ -5,4 +5,6 @@ COPY . /usr/src/app
 WORKDIR /usr/src/app
 EXPOSE 80
 RUN pip install -r /usr/src/app/requirements.txt
-CMD ["python", "app.py"]
+COPY nginx.conf /etc/nginx/conf.d/
+RUN ["chmod", "+x", "/usr/src/app/start.sh"]
+CMD ["/usr/src/app/start.sh"]

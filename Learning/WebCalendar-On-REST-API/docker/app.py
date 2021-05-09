@@ -115,6 +115,8 @@ api.add_resource(EventPost, '/event')
 api.add_resource(GetEventById, '/event/<int:eventid>')
 api.add_resource(GetEventsByDates, '/event')
 
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000 )
 
 # do not change the way you run the program
-app.run(host='0.0.0.0', port=80, debug=True)
+#app.run(host='0.0.0.0', port=80, debug=True)

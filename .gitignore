@@ -1,0 +1,10 @@
+# Ignore Mac system files
+.DS_store
+
+#ignore *.db files
+.db
+
+#ignore venns folders
+**/bin
+**/include
+**/lib
